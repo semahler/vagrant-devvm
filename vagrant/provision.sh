@@ -25,27 +25,30 @@ sudo apt-get install -y libapache2-mod-php7.1
 a2enconf php7.1-fpm
 sudo service apache2 reload
 
+label "Removing MySQL"
+sudo service mysql stop
+sudo apt-get remove --purge mysql-server-5.6 mysql-client-5.6 mysql-common-5.6
+sudo apt-get autoremove
+sudo apt-get autoclean
+sudo rm -rf /var/lib/mysql/
+sudo rm -rf /etc/mysql/
+
 label "Installing MariaDB-Server"
+sudo debconf-set-selections <<< 'mariadb-server-10.0 mysql-server/root_password password vagrant'
+sudo debconf-set-selections <<< 'mariadb-server-10.0 mysql-server/root_password_again password vagrant'
 sudo apt-get install -y mariadb-server
 
 label "Configure MariaDB-Server"
-sudo /etc/init.d/mysql restart
+# Set MariaDB root user password and persmissions
+mysql -u root -pvagrant -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'vagrant' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 
-# set root password
-sudo /usr/bin/mysqladmin -u root password 'vagrant'
-
-# allow remote access (required to access from our private network host. Note that this is completely insecure if used in any other way)
-mysql -u root -ppassword -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION; FLUSH PRIVILEGES;"
-
-# drop the anonymous users
-mysql -u root -ppassword -e "DROP USER ''@'localhost';"
-mysql -u root -ppassword -e "DROP USER ''@'$(hostname)';"
+#Open MariaDB to be used with external clients
+sudo sed -i 's|127.0.0.1|0.0.0.0|g' /etc/mysql/my.cnf
 
 # drop the demo database
-mysql -u root -ppassword -e "DROP DATABASE test;"
+mysql -u root -pvagrant -e "DROP DATABASE test;"
 
-# restart
-sudo /etc/init.d/mysql restart
+sudo service mysql restart
 
 #label "Install tools"
 sudo apt-get install -y zip unzip vim git
