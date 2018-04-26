@@ -56,6 +56,11 @@ sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.1/apache2/ph
 sudo sed -i "s/memory_limit = .*/memory_limit = 1024M/" /etc/php/7.1/apache2/php.ini
 sudo sed -i "s/;date.timezone = */date.timezone = \"Europe\/Berlin\"/" /etc/php/7.1/apache2/php.ini
 
-#label "Install tools"
+label "Install Composer"
+curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
+sudo chmod +x /usr/local/bin/composer
+
+label "Install tools"
 sudo apt-get install -y zip unzip vim git
 
