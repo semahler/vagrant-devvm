@@ -15,27 +15,6 @@ sudo apt-get upgrade -y
 label "Completing: Updating System..."
 
 #################################################################
-# Install Apache
-
-label "Starting: Install Apache..."
-
-sudo apt-get install -y apache2
-
-label "Completing: Install Apache..."
-
-#################################################################
-# Configure Apache Server
-label "Starting: Configure Apache..."
-
-label "- Empty the httml-directory"
-rm -rf /var/www/html/*
-
-label "- Eenable mod_rewrite module"
-sudo a2enmod rewrite
-
-label "Completing: Configure Apache..."
-
-#################################################################
 # Install PHP7.1
 
 label "Starting: Install PHP..."
@@ -54,10 +33,6 @@ label "Starting: Installing PHP 7 modules..."
 
 sudo apt-get install -y php7.1-cli php7.1-curl php7.1-gd php7.1-intl php7.1-json php7.1-mbstring php7.1-mcrypt
 sudo apt-get install -y php7.1-mysql php7.1-opcache php7.1-readline php7.1-xml php7.1-xsl php7.1-zip php7.1-bz2
-
-sudo apt-get install -y libapache2-mod-php7.1
-a2enconf php7.1-fpm
-sudo service apache2 reload
 
 label "Completing:Installing PHP 7 modules..."
 
@@ -145,12 +120,3 @@ label "Starting: Clean up..."
 sudo apt-get clean
 
 label "Completing: Clean up..."
-
-#################################################################
-# Restarting Apache-Server
-
-label "Starting: Restart services..."
-
-sudo service apache2 restart
-
-label "Completing: Restart services..."
