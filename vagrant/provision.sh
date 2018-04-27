@@ -15,6 +15,34 @@ sudo apt-get upgrade -y
 label "Completing: Updating System..."
 
 #################################################################
+# Installing/Starting nginx
+
+label "Starting: Install nginx..."
+sudo apt-get -y install nginx
+
+sudo service nginx start
+
+label "Completing: Install nginx..."
+
+
+#################################################################
+# Set up nginx
+
+label "- Copy configuration and set permissions"
+sudo cp /vagrant/nginx/nginx.conf /etc/nginx/sites-available/site.conf
+sudo chmod 644 /etc/nginx/sites-available/site.conf
+sudo ln -s /etc/nginx/sites-available/site.conf /etc/nginx/sites-enabled/site.conf
+
+label "- Restarting nginx"
+sudo service nginx restart
+
+label "- Empty the httml-directory"
+sudo rm -rf /var/www
+
+# symlink /var/www => /vagrant
+#ln -s /vagrant /var/www
+
+#################################################################
 # Install PHP7.1
 
 label "Starting: Install PHP..."
@@ -120,3 +148,12 @@ label "Starting: Clean up..."
 sudo apt-get clean
 
 label "Completing: Clean up..."
+
+#################################################################
+# Restarting nginx
+
+label "Starting: Restarting nginx..."
+
+sudo service nginx restart
+
+label "Completing: Restarting nginx..."
