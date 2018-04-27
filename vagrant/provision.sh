@@ -15,6 +15,24 @@ sudo apt-get upgrade -y
 label "Completing: Updating System..."
 
 #################################################################
+# Remove old MySQL/Apache2 installation if exists
+
+label "Starting: Removing MySQL and Apache2..."
+
+label "- Stopping services"
+sudo service mysql stop
+sudo service apache2 stop
+
+label "- Removing packages/cleanup"
+sudo apt-get remove --purge mysql-server-5.6 mysql-client-5.6 mysql-common-5.6 mysql-common apache2*
+sudo apt-get autoremove
+sudo apt-get autoclean
+sudo rm -rf /var/lib/mysql/
+sudo rm -rf /etc/mysql/
+
+label "Completing: Removing MySQL and Apache2..."
+
+#################################################################
 # Installing/Starting nginx
 
 label "Starting: Install nginx..."
@@ -63,20 +81,6 @@ sudo apt-get install -y php7.1-cli php7.1-curl php7.1-gd php7.1-intl php7.1-json
 sudo apt-get install -y php7.1-mysql php7.1-opcache php7.1-readline php7.1-xml php7.1-xsl php7.1-zip php7.1-bz2
 
 label "Completing:Installing PHP 7 modules..."
-
-#################################################################
-# Remove old MySQL installation if exists
-
-label "Starting: Removing MySQL..."
-
-sudo service mysql stop
-sudo apt-get remove --purge mysql-server-5.6 mysql-client-5.6 mysql-common-5.6 mysql-common
-sudo apt-get autoremove
-sudo apt-get autoclean
-sudo rm -rf /var/lib/mysql/
-sudo rm -rf /etc/mysql/
-
-label "Completing: Removing MySQL..."
 
 #################################################################
 # Install MariaDB-Server
