@@ -46,16 +46,17 @@ label "Completing: Install nginx..."
 #################################################################
 # Set up nginx
 
+label "- Delete old config-files"
+sudo rm /etc/nginx/sites-available/*
+sudo rm /etc/nginx/sites-enabled/*
+
 label "- Copy configuration and set permissions"
-sudo cp /vagrant/vagrant/nginx/nginx.conf /etc/nginx/sites-available/site.conf
-sudo chmod 644 /etc/nginx/sites-available/site.conf
-sudo ln -s /etc/nginx/sites-available/site.conf /etc/nginx/sites-enabled/site.conf
+sudo cp /vagrant/vagrant/nginx/default /etc/nginx/sites-available/default
+sudo chmod 644 /etc/nginx/sites-available/default
+sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 label "- Restarting nginx"
 sudo service nginx restart
-
-label "- Empty the html-directory"
-sudo rm -rf /var/www/*
 
 # symlink /var/www => /vagrant
 #ln -s /vagrant /var/www
@@ -148,7 +149,6 @@ sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL \& \~E_DEPRECATED/" 
 sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.1/fpm/php.ini
 
 sudo sed -i "s/cgi.fix_pathinfo = .*/cgi.fix_pathinfo = 1/" /etc/php/7.1/fpm/php.ini
-
 sudo sed -i "s/;date.timezone = */date.timezone = \"Europe\/Berlin\"/" /etc/php/7.1/fpm/php.ini
 
 label "Completing: Change PHP settings..."

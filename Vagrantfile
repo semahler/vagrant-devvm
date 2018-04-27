@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
 	config.vm.network "forwarded_port", guest: 3306, host: 3306
 	config.vm.hostname = HOSTNAME
 
-	config.vm.synced_folder "./www/", "/var/www/", type: SYNCED_FOLDER_TYPE
+	config.vm.synced_folder "./www/", "/var/www/html", type: SYNCED_FOLDER_TYPE
 	if SYNCED_FOLDER_TYPE == "nfs"
 		config.nfs.map_uid = Process.uid
 		config.nfs.map_gid = Process.gid
