@@ -47,15 +47,15 @@ label "Completing: Install nginx..."
 # Set up nginx
 
 label "- Copy configuration and set permissions"
-sudo cp /vagrant/nginx/nginx.conf /etc/nginx/sites-available/site.conf
+sudo cp /vagrant/vagrant/nginx/nginx.conf /etc/nginx/sites-available/site.conf
 sudo chmod 644 /etc/nginx/sites-available/site.conf
 sudo ln -s /etc/nginx/sites-available/site.conf /etc/nginx/sites-enabled/site.conf
 
 label "- Restarting nginx"
 sudo service nginx restart
 
-label "- Empty the httml-directory"
-sudo rm -rf /var/www
+label "- Empty the html-directory"
+sudo rm -rf /var/www/*
 
 # symlink /var/www => /vagrant
 #ln -s /vagrant /var/www
@@ -68,6 +68,7 @@ label "Starting: Install PHP..."
 label "Install PHP 7.1"
 sudo apt-add-repository ppa:ondrej/php
 sudo apt-get update
+sudo apt-get install -y php7.1-fpm
 sudo apt-get install -y php7.1
 
 label "Completing: Install PHP..."
@@ -77,7 +78,7 @@ label "Completing: Install PHP..."
 
 label "Starting: Installing PHP 7 modules..."
 
-sudo apt-get install -y php7.1-cli php7.1-curl php7.1-gd php7.1-intl php7.1-json php7.1-mbstring php7.1-mcrypt
+sudo apt-get install -y php7.1-curl php7.1-gd php7.1-intl php7.1-json php7.1-mbstring php7.1-mcrypt
 sudo apt-get install -y php7.1-mysql php7.1-opcache php7.1-readline php7.1-xml php7.1-xsl php7.1-zip php7.1-bz2
 
 label "Completing:Installing PHP 7 modules..."
