@@ -42,7 +42,6 @@ sudo service nginx start
 
 label "Completing: Install nginx..."
 
-
 #################################################################
 # Set up nginx
 
@@ -57,9 +56,6 @@ sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 label "- Restarting nginx"
 sudo service nginx restart
-
-# symlink /var/www => /vagrant
-#ln -s /vagrant /var/www
 
 #################################################################
 # Install PHP7.1
@@ -139,17 +135,7 @@ label "Completing: Install composer..."
 
 label "Starting: Change PHP settings..."
 
-sudo sed -i "s/memory_limit = .*/memory_limit = 64M/" /etc/php/7.1/fpm/php.ini
-sudo sed -i "s/upload_max_filesize = .*/upload_max_filesize = 16M/" /etc/php/7.1/fpm/php.ini
-sudo sed -i "s/post_max_size = .*/post_max_size = 16M/" /etc/php/7.1/fpm/php.ini
-sudo sed -i "s/max_execution_time = .*/max_execution_time = 30/" /etc/php/7.1/fpm/php.ini
-sudo sed -i "s/max_input_time = .*/max_input_time = -1/" /etc/php/7.1/fpm/php.ini
-
-sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL \& \~E_DEPRECATED/" /etc/php/7.1/fpm/php.ini
-sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.1/fpm/php.ini
-
-sudo sed -i "s/cgi.fix_pathinfo = .*/cgi.fix_pathinfo = 1/" /etc/php/7.1/fpm/php.ini
-sudo sed -i "s/;date.timezone = */date.timezone = \"Europe\/Berlin\"/" /etc/php/7.1/fpm/php.ini
+sudo cp /vagrant/vagrant/nginx/php.ini /etc/php/7.1/fpm/php.ini
 
 label "Completing: Change PHP settings..."
 
@@ -168,5 +154,6 @@ label "Completing: Clean up..."
 label "Starting: Restarting nginx..."
 
 sudo service nginx restart
+sudo service php7.1-fpm restart
 
 label "Completing: Restarting nginx..."
